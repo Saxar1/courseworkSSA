@@ -1,0 +1,85 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<script>
+
+</script>
+
+<form method="POST" action="{{ url_for('main.shares') }}">
+    <table class="table">
+        <thead>
+        <tr>
+            <th><abbr title="Позиция">№</abbr></th>
+            <th>Название акции</th>
+            <th><abbr title="Стоимость акции в валюте">Стоимость акции</abbr></th>
+            <th>Описание акции</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for share in Shares %}
+        <tr>
+            <th>{{ share[0] }}</th>
+            <td>{{ share[1] }} <strong>({{ share[2] }})</strong></td>
+            <td>{{ share[4] }}</td>
+            <td>{{ share[5] }}</td>
+            <td>
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-normal" type="text" name="count" placeholder="Кол-во" autofocus="">
+                    </div>
+                </div>
+            </td>
+            <td><button class="button is-success is-light">Купить</button></td>
+        </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+</form>
+
+{% if (current_user.is_authenticated) and (current_user.email == 'ssa@gmail.com') %}
+<form method="POST" action="{{ url_for('main.shares') }}">
+    <div class="column is-4 is-offset-4">
+        <label class="label">Добавить новую акцию</label>
+
+        <div class="field">
+            <div class="control">
+                <input class="input is-large" type="text" name="name" placeholder="Введите название акции" autofocus="">
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="control">
+                <input class="input is-large" type="text" name="ticker" placeholder="Введите тикер" autofocus="">
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="control">
+                <input class="input is-large" type="number" name="price" placeholder="Введите стоимость акции" autofocus="">
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="control">
+                <textarea class="textarea" placeholder="Введите описание акции" name="descript"></textarea>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="checkbox">
+                <input type="checkbox" name="check">Подтвердить правильность введенных данных
+            </label>
+        </div>
+
+        <button class="button is-block is-info is-large is-fullwidth">Добавить</button>
+    </div>
+</form>
+{% endif %}
+
+
+{% endblock %}

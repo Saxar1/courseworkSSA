@@ -1,0 +1,81 @@
+<!-- templates/profile.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+  Добро пожаловать, {{ name }} {{ surname }}!
+</h1>
+
+<div class="box">
+    <div class="content is-normal">
+        <h1>Портфель:</h1>
+    </div>
+    <div class="columns">
+        <div class="column">
+            <div class="content is-normal">
+                <h1>Мои акции:</h1>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Название акции</th>
+                    <th><abbr title="Стоимость акции в валюте">Стоимость акции</abbr></th>
+                    <th><abbr title="Количество акций в портфеле">Количество</abbr></th>
+                    <th><abbr title="Итоговая стоимость акций">Итоговая стоимость</abbr></th>
+                    <th></th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for ClS in ClShares %}
+                <tr>
+                    <td>{{ ClS[0] }} <strong>({{ ClS[1] }})</strong></td>
+                    <td>{{ ClS[2] }}</td>
+                    <td>{{ ClS[3] }}</td>
+                    <td>{{ ClS[4] }}</td>
+                    <td><button class="button is-danger is-light" name="{{ ClS[0] }}">Продать</button></td>
+
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="column">
+            <div class="content is-normal">
+                <h1>Баланс:</h1>
+                {% for data in Data %}
+                    <h1>RUB: {{ data[2] }}</h1>
+                    <h1>USD: {{ data[3] }}</h1>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<form method="POST" action="{{ url_for('main.profile') }}">
+    <div class="column is-4 is-offset-4">
+        <label class="label">Пополнить счет</label>
+
+        <div class="field">
+            <div class="control">
+                <h6>Введите количество rub:</h6>
+                <input class="input is-large" type="number" value="0" name="rub" autofocus="">
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="control">
+                <h6>Введите количество usd:</h6>
+                <input class="input is-large" type="number" value="0" name="usd" autofocus="">
+            </div>
+        </div>
+        <button class="button is-block is-info is-large is-fullwidth">Пополнить</button>
+    </div>
+</form>
+
+
+
+{% endblock %}
